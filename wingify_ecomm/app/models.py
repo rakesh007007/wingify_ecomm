@@ -90,7 +90,7 @@ class User(models.Model):
 		return self.address.address_id
 
     def __unicode__(self):
-    	return str(self.nameOfInstitution)
+    	return str(self.user_id)
     def save(self, *args, **kwargs):
     	if not self.pk:
     		ct = Cart()
