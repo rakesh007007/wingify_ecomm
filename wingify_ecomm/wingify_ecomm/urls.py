@@ -1,21 +1,22 @@
-"""wingify_ecomm URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.contrib import admin
-
+from rest_framework import routers
+from wingify_ecomm import *
+from wingify_ecomm.settings import *
+from app.views import *
+from app import apis
+router = routers.DefaultRouter()
+router.register(r'address', apis.AddressViewSet)
+router.register(r'category', apis.CategoryViewSet)
+router.register(r'product', apis.ProductViewSet)
+router.register(r'user', apis.UserViewSet)
+router.register(r'cart', apis.CartViewSet)
+router.register(r'cartitem', apis.CartitemViewSet)
+router.register(r'order', apis.OrderViewSet)
+router.register(r'orderitem', apis.OrderitemViewSet)
+router.register(r'seller', apis.SellerViewSet)
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-]
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(router.urls)),
+    url(r'^authtoken/', apis.TokenView.as_view(), name='auth-view'),
+    ]
