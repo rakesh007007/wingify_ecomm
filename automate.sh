@@ -19,4 +19,5 @@ echo "running command django-admin  makemigrations app.."
 
 python wingify_ecomm/manage.py makemigrations app
 python wingify_ecomm/manage.py migrate
+python wingify_ecomm/manage.py loaddata wingify_ecomm/app/db.json
 python wingify_ecomm/manage.py runserver 

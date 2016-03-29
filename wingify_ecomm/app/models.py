@@ -33,7 +33,7 @@ class Category(models.Model):
 class Seller(models.Model):
     seller_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=300, blank=False, null=False)
-    mailid =models.CharField(max_length=300, blank=False, null=False,default='no mail id')
+    mail_id =models.CharField(max_length=300, blank=False, null=False,default='no mail id')
     mobile = models.BigIntegerField(blank=False,null=False)
     profile_pic = models.ImageField(blank=True,null=True,default='./No_image_available.png')
     address = models.ForeignKey(Address, blank=True, null=True)
@@ -62,17 +62,7 @@ class Product(models.Model):
 	related_products = models.ManyToManyField("self", blank=True)
 	objects = models.Manager()
 	def __unicode__(self):
-		return str(self.name)+'-'+str(self.grade)+'-'+str(self.origin)
-class Cart(models.Model):
-	cart_id = models.AutoField(primary_key=True)
-	#check this time thing
-	time_of_create = models.DateTimeField(default=timezone.now,null=True,blank=True)
-	time_of_update =models.DateTimeField(default=timezone.now,null=True,blank=True)
-	cart_total = models.FloatField(default=0)
-	class Meta:
-		ordering = ['time_of_update']
-	def __unicode__(self):
-		return str(self.cart_id)
+		return str(self.name)
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     mail_id =models.CharField(max_length=300, blank=False, null=False)
@@ -81,7 +71,6 @@ class User(models.Model):
     password = models.CharField(max_length=300, blank=False, null=False)
     profile_photo = models.ImageField(blank=False,null=False,default='./profile.gif')
     address = models.ForeignKey(Address, blank=True, null=True)
-    cart =models.ForeignKey(Cart,blank=True,null=True)
     def cartId(self):
     	return self.cart.cart_id
     def userId(self):
@@ -100,6 +89,17 @@ class User(models.Model):
 	    	super(User,self).save(*args, **kwargs)
         else:
 	    	super(User,self).save(*args,**kwargs)
+class Cart(models.Model):
+	cart_id = models.AutoField(primary_key=True)
+	#check this time thing
+	time_of_create = models.DateTimeField(default=timezone.now,null=True,blank=True)
+	time_of_update =models.DateTimeField(default=timezone.now,null=True,blank=True)
+	cart_total = models.FloatField(default=0)
+	user =models.ForeignKey(User,blank=True,null=True)
+	class Meta:
+		ordering = ['time_of_update']
+	def __unicode__(self):
+		return str(self.cart_id)
 class Cartitem(models.Model):
 	cartitem_id = models.AutoField(primary_key=True)
 	cart=models.ForeignKey(Cart,blank=False,null=False)
@@ -130,7 +130,7 @@ class Order(models.Model):
 	def orderId(self):
 		return self.order_id
 	def __unicode__(self):
-		return str(self.order_id)+str(self.user.nameOfInstitution)
+		return str(self.order_id)
 class Orderitem(models.Model):
 	orderitem_id = models.AutoField(primary_key=True)
 	order=models.ForeignKey(Order,blank=False,null=False)

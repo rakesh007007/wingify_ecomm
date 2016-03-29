@@ -101,9 +101,24 @@ class ProductViewSet(viewsets.ModelViewSet):
 	serializer_class = ProductSerializer
 class SellerViewSet(viewsets.ModelViewSet):
 	"""
-	API endpoint that allows users to be viewed or edited.
+	API endpoint that allows seller to be viewed or edited.
 	"""
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (IsAuthenticated,)
 	queryset = Seller.objects.all()
 	serializer_class = SellerSerializer
+class ProductSearchList(generics.ListAPIView):
+	#authentication_classes = (TokenAuthentication,)
+	#permission_classes = (IsAuthenticated,)
+	serializer_class = ProductSerializer
+
+	def get_queryset(self):
+		"""
+		search api
+		
+		"""
+		try:
+			stext = self.kwargs['searchtext']
+			return Product.rak.filter(description__icontains = stext)
+		except:
+			print 'error in ProductsBySearchcategory'

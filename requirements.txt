@@ -3,3 +3,6 @@ djangorestframework==3.2.0
 gunicorn==19.3.0
 SQLAlchemy==1.0.4
 Pillow==2.9.0
+coverage==3.6
+django-extensions
+django-rest-swagger

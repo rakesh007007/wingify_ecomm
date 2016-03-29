@@ -17,6 +17,8 @@ router.register(r'orderitem', apis.OrderitemViewSet)
 router.register(r'seller', apis.SellerViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url('^api/search/product/(?P<searchtext>.+)/$', apis.ProductSearchList.as_view()),
     url(r'^api/', include(router.urls)),
     url(r'^authtoken/', apis.TokenView.as_view(), name='auth-view'),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
     ]
